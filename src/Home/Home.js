@@ -1,9 +1,13 @@
 
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react';
+import cloud_3 from "./images/cloud_3.jpg"
+import Datecom from '../Date';
 
 const Home = () => {
     let [city, SetCity] = useState("");
-    let [result, setResult] = useState("")
+    let [result, setResult] = useState("");
+
+    const [date, setDate] = useState('');
 
 
     let getTemperature = () => {
@@ -12,25 +16,38 @@ const Home = () => {
         ).then(data => {
             const kelvin = data.main.temp;
             const celsius = kelvin - 273.15
-            setResult("Temperature" + " " + city + ' ' + Math.round(celsius));
+            setResult("Temperature" + " " + city + "   " + Math.round(celsius) + "°c");
             SetCity("")
-        }).catch(error => console.log(error))
+        }).catch(error => console.log(error));
 
+        setDate(new Date());
     }
 
+
     return (
-        <div className='bg-blue-800 text-white font-bold text-2xl rounded-lg flex justify-center p-10 mx-auto mt-20 w-1/4 h-96 '>
-            <div>
-                <h1 className='text-3xl mb-9 text-center '>Weather Report</h1>
-                <div >
-                    <div> <input type="text" value={city} onChange={(e) => { SetCity(e.target.value) }} className='border-2 border-black p-3 rounded-lg mb-5 w-56 text-black' /></div>
-                    <div className='flex justify-center'><button className='px-4 py-4 bg-blue-600 text-white font-sans font-bold ' onClick={() => getTemperature()}>Get Temperature</button></div>
-                    <h1>{result}</h1>
-                </div>
+        <>
+            <div >
+                <div className='w-98 bg-blue-700 p-10 text-white'>
+                    <h1 className='text-center font-sans text-2xl font-bold '>Weather Report</h1>
+                    <div className='mt-10'>
+                        <div> <input type="text" value={city} onChange={(e) => { SetCity(e.target.value) }} className='border-2 border-black p-2 rounded-lg mb-5 w-46 text-black' /></div>
+                        <div className='flex justify-center'><button className='px-6 py-4 bg-white text-black font-sans font-bold ' onClick={() => getTemperature()}>Get Temperature</button></div>
 
-            </div>
+                    </div>
 
-        </div>
+                </div >
+
+
+            </div >
+
+            <p className='text-center mt-10 font-sans font-semibold text-xl flex justify-between'>
+                <div><img src={cloud_3} style={{ width: "50px", }} className='' />
+                    <div>{result}</div> </div>
+
+            </p>
+            <Datecom />
+
+        </>
     )
 }
 
